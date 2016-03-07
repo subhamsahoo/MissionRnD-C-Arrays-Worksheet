@@ -16,5 +16,20 @@ NOTES: Use realloc to allocate memory.
 
 int * sortedArrayInsertNumber(int *Arr, int len, int num)
 {
-	return NULL;
+	if (Arr == NULL || len < 1)
+		return NULL;
+	int i, j;
+	Arr = (int*)realloc(Arr, (len + 1)*sizeof(int));
+	for (i = 0; i<len; i++)
+	{
+		if (Arr[i]>num)
+			break;
+	}
+	for (j = len; j>i; j--)
+	{
+		Arr[j] = Arr[j - 1];
+	}
+	Arr[i] = num;
+	return Arr;
+
 }

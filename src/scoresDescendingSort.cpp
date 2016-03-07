@@ -19,7 +19,42 @@ struct student {
 	char name[10];
 	int score;
 };
+int partition(struct student *stud, int l, int h)
+{
+	int x = stud[h].score;
+	int i = (l - 1);
+
+	for (int j = l; j <= h - 1; j++)
+	{
+		if (stud[j].score >= x)
+		{
+			i++;
+			struct student temp = stud[j];
+			stud[j] = stud[i];
+			stud[i] = temp;
+		}
+	}
+	struct student temp = stud[i + 1];
+	stud[i + 1] = stud[h];
+	stud[h] = temp;
+	return (i + 1);
+}
+
+
+void quickSort(struct student *stud, int l, int h)
+{
+	if (l < h)
+	{
+		int p = partition(stud, l, h);
+		quickSort(stud, l, p - 1);
+		quickSort(stud, p + 1, h);
+	}
+}
+
 
 void * scoresDescendingSort(struct student *students, int len) {
-	return NULL;
+	if (students == NULL || len < 1)
+		return NULL;
+	quickSort(students, 0, len - 1);
+
 }

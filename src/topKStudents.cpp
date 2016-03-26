@@ -20,7 +20,45 @@ struct student {
 	char *name;
 	int score;
 };
+int partition2(struct student *stud, int l, int h)
+{
+	int x = stud[h].score;
+	int i = (l - 1);
+
+	for (int j = l; j <= h - 1; j++)
+	{
+		if (stud[j].score >= x)
+		{
+			i++;
+			struct student temp = stud[j];
+			stud[j] = stud[i];
+			stud[i] = temp;
+		}
+	}
+	struct student temp = stud[i + 1];
+	stud[i + 1] = stud[h];
+	stud[h] = temp;
+	return (i + 1);
+}
+
+
+void quickSort2(struct student *stud, int l, int h)
+{
+	if (l < h)
+	{
+		int p = partition2(stud, l, h);
+		quickSort2(stud, l, p - 1);
+		quickSort2(stud, p + 1, h);
+	}
+}
+
 
 struct student ** topKStudents(struct student *students, int len, int K) {
-	return NULL;
+	if (students == NULL || len < 1 || K<1)
+		return NULL;
+	quickSort2(students, 0, len - 1);
+	struct student **top = (student**)malloc(K*sizeof(student));
+	for (int i = 0; i < K; i++)
+		top[i] = &students[i];
+	return top;
 }
